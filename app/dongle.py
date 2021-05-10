@@ -11,7 +11,11 @@ tournament = 'IEM Summer 2021'
 date = datetime.today().strftime('%d-%m-%Y ')
 now = datetime.now()
 timenow = now.strftime('%I:%M %p')
-
+mode = 'BO3'
+maps = ['Dust2', 'Inferno', 'Overpass']
+map_icon = ['www.hosting.com/img/dust2_icon.png', 'www.hosting.com/img/Inferno_icon.png',
+            'www.hosting.com/img/overpass_icon.png']
+team_names = ['Astralis', 'ViCi']
 
 pusher_client = pusher.Pusher(
     app_id='1201428',
@@ -34,6 +38,20 @@ def main():
     data['Tournament'] = tournament
     data['Date'] = date
     data['Time'] = str(timenow)
+    data['Mode'] = mode
+
+    data['Maps'][0]['map1'][0]['name'] = maps[0]
+    data['Maps'][0]['map1'][0]['map_icon'] = map_icon[0]
+
+    data['Maps'][0]['map2'][0]['name'] = maps[1]
+    data['Maps'][0]['map2'][0]['map_icon'] = map_icon[1]
+
+    data['Maps'][0]['map3'][0]['name'] = maps[2]
+    data['Maps'][0]['map3'][0]['map_icon'] = map_icon[2]
+
+    data['Team1'][0]['name'] = team_names[0]
+
+    #WIP -->  <--
 
     try:
         while True:

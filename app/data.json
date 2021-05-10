@@ -1,0 +1,105 @@
+{
+    "Game": "CS:GO",
+    "Icon": "www.hosting.com/img/csgo_icon.png",
+    "Banner": "www.hosting.com/img/iemsummerbanner.png",
+    "Tournament": "IEM Summer 2021",
+    "Date": "27.04.2021",
+    "Time": "10.40PM",
+    "Mode": "BO3",
+    "Maps": [{
+        "map1": [{
+            "name": "Dust2",
+            "map_icon": "www.hosting.com/img/dust2_icon.png"
+        }],
+        "map2": [{
+            "name": "Inferno",
+            "map_icon": "www.hosting.com/img/Inferno_icon.png"
+        }],
+        "map3": [{
+            "name": "Overpass",
+            "map_icon": "www.hosting.com/img/overpass_icon.png"
+        }]
+
+    }],
+    "Team1": [{
+        "Name": "Astralis",
+        "Logo": "www.hosting.com/img/astralis.png",
+        "Factor": 1.86,
+        "Score": 12,
+        "Team": [{
+            "Player1": [{
+                "Name": "NuKe",
+                "Kills": 27,
+                "Assists": 6,
+                "Deaths": 14,
+                "MVP": 4
+            }],
+            "Player2": {
+                "Name": "PlaZz",
+                "Kills": 19,
+                "Assists": 3,
+                "Deaths": 14,
+                "MVP": 2
+            },
+            "Player3": {
+                "Name": "Pasha Biceps",
+                "Kills": 12,
+                "Assists": 9,
+                "Deaths": 5,
+                "MVP": 0
+            },
+            "Player4": {
+                "Name": "Fallen",
+                "Kills": 8,
+                "Assists": 8,
+                "Deaths": 16,
+                "MVP": 1
+            },
+            "Player5": {
+                "Name": "Scream",
+                "Kills": 3,
+                "Assists": 14,
+                "Deaths": 11,
+                "MVP": 4
+            }
+        }]
+    }],
+    "Team2": {
+        "name": "ViCi",
+        "logo": "www.hosting.com/img/vici.png",
+        "factor": 1.14,
+        "score": 9,
+        "team": {
+            "Karma": {
+                "Kills": 27,
+                "Assists": 6,
+                "Deaths": 14,
+                "MVP": 4
+            },
+            "DeadShoTt": {
+                "Kills": 19,
+                "Assists": 3,
+                "Deaths": 14,
+                "MVP": 2
+            },
+            "SwarmEE": {
+                "Kills": 12,
+                "Assists": 9,
+                "Deaths": 5,
+                "MVP": 0
+            },
+            "snAX": {
+                "Kills": 8,
+                "Assists": 8,
+                "Deaths": 16,
+                "MVP": 1
+            },
+            "Elen": {
+                "Kills": 3,
+                "Assists": 14,
+                "Deaths": 11,
+                "MVP": 4
+            }
+        }
+    }
+}
