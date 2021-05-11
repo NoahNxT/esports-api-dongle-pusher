@@ -7,19 +7,18 @@
     "Time": "10.40PM",
     "Mode": "BO3",
     "Maps": [{
-        "map1": [{
-            "name": "Dust2",
-            "map_icon": "www.hosting.com/img/dust2_icon.png"
+        "Map1": [{
+            "Name": "Dust2",
+            "Map_icon": "www.hosting.com/img/dust2_icon.png"
         }],
-        "map2": [{
-            "name": "Inferno",
-            "map_icon": "www.hosting.com/img/Inferno_icon.png"
+        "Map2": [{
+            "Name": "Inferno",
+            "Map_icon": "www.hosting.com/img/Inferno_icon.png"
         }],
-        "map3": [{
-            "name": "Overpass",
-            "map_icon": "www.hosting.com/img/overpass_icon.png"
+        "Map3": [{
+            "Name": "Overpass",
+            "Map_icon": "www.hosting.com/img/overpass_icon.png"
         }]
-
     }],
     "Team1": [{
         "Name": "Astralis",
@@ -34,72 +33,77 @@
                 "Deaths": 14,
                 "MVP": 4
             }],
-            "Player2": {
+            "Player2": [{
                 "Name": "PlaZz",
                 "Kills": 19,
                 "Assists": 3,
                 "Deaths": 14,
                 "MVP": 2
-            },
-            "Player3": {
+            }],
+            "Player3": [{
                 "Name": "Pasha Biceps",
                 "Kills": 12,
                 "Assists": 9,
                 "Deaths": 5,
                 "MVP": 0
-            },
-            "Player4": {
+            }],
+            "Player4": [{
                 "Name": "Fallen",
                 "Kills": 8,
                 "Assists": 8,
                 "Deaths": 16,
                 "MVP": 1
-            },
-            "Player5": {
+            }],
+            "Player5": [{
                 "Name": "Scream",
                 "Kills": 3,
                 "Assists": 14,
                 "Deaths": 11,
                 "MVP": 4
-            }
+            }]
         }]
     }],
-    "Team2": {
+    "Team2": [{
         "name": "ViCi",
         "logo": "www.hosting.com/img/vici.png",
         "factor": 1.14,
         "score": 9,
-        "team": {
-            "Karma": {
+        "Team": [{
+            "Player1": [{
+                "Name": "Karma",
                 "Kills": 27,
                 "Assists": 6,
                 "Deaths": 14,
                 "MVP": 4
-            },
-            "DeadShoTt": {
+            }],
+            "Player2": [{
+                "Name": "DeadShoTt",
                 "Kills": 19,
                 "Assists": 3,
                 "Deaths": 14,
                 "MVP": 2
-            },
-            "SwarmEE": {
+            }],
+            "Player3": [{
+                "Name": "SwarmEE",
                 "Kills": 12,
                 "Assists": 9,
                 "Deaths": 5,
                 "MVP": 0
-            },
-            "snAX": {
+            }],
+            "Player4": [{
+                "Name": "snAX",
                 "Kills": 8,
                 "Assists": 8,
                 "Deaths": 16,
                 "MVP": 1
-            },
-            "Elen": {
+            }],
+            "Player5": [{
+                "Name": "Elen",
                 "Kills": 3,
                 "Assists": 14,
                 "Deaths": 11,
                 "MVP": 4
-            }
-        }
-    }
+            }]
+        }]
+    }]
 }
