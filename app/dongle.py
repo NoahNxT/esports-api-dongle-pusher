@@ -1,27 +1,24 @@
+# WIP: Add best of 3 full functionality
+
 import pusher
 import random
 import time
 import json
 from datetime import datetime
 from dotenv import load_dotenv
-load_dotenv()
 import os
 
+load_dotenv()
 
-
-game = 'CS:GO'
-icon = 'www.hosting.com/img/csgo_icon.png'
-banner = "www.hosting.com/img/iemsummerbanner.png"
-tournament = 'IEM Summer 2021'
 date = datetime.today().strftime('%d-%m-%Y ')
 now = datetime.now()
 timenow = now.strftime('%I:%M %p')
 mode = 'BO1'
-game_maps = ['Dust2', 'Inferno', 'Overpass']
-map_icon = ['www.hosting.com/img/dust2_icon.png', 'www.hosting.com/img/Inferno_icon.png',
-            'www.hosting.com/img/overpass_icon.png']
-team_names = ['Astralis', 'ViCi']
-team_logos = ['www.hosting.com/img/astralis.png', 'www.hosting.com/img/vici.png']
+game_maps = [os.environ.get('MAP1_NAME'), os.environ.get('MAP2_NAME'), os.environ.get('MAP3_NAME')]
+map_icon = [os.environ.get('MAP1_ICON'), os.environ.get('MAP2_ICON'),
+            os.environ.get('MAP3_ICON')]
+team_names = [os.environ.get('TEAM1_NAME'), os.environ.get('TEAM2_NAME')]
+team_logos = [os.environ.get('TEAM1_LOGO'), os.environ.get('TEAM2_LOGO')]
 team_factors = [1.86, 1.14]
 team_scores = [12, 8]
 
@@ -36,8 +33,6 @@ team2_player_kills = [18, 16, 10, 7, 1]
 team2_player_assists = [8, 2, 5, 6, 10]
 team2_player_deaths = [12, 2, 13, 14, 10]
 team2_player_mvp = [0, 1, 0, 1, 2]
-
-delay_message = 1
 
 pusher_client = pusher.Pusher(
     app_id=os.environ.get('APP_ID'),
@@ -92,10 +87,10 @@ def teams():
 def main():
     with open('./data.json') as f:
         data = json.load(f)
-    data['Game'] = game
-    data['Icon'] = icon
-    data['Banner'] = banner
-    data['Tournament'] = tournament
+    data['Game'] = os.environ.get('GAME_NAME')
+    data['Icon'] = os.environ.get('GAME_ICON')
+    data['Banner'] = os.environ.get('TOURNAMENT_BANNER')
+    data['Tournament'] = os.environ.get('TOURNAMENT_NAME')
     data['Date'] = date
     data['Time'] = str(timenow)
     data['Mode'] = mode
@@ -106,7 +101,7 @@ def main():
     try:
         while True:
             pusher_client.trigger('my-channel', 'my-event', str(data))
-            time.sleep(delay_message)
+            time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
     except KeyboardInterrupt:
         print('Dongle STOPPED!')
 
