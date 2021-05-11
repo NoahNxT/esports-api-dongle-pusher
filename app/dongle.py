@@ -20,7 +20,7 @@ map_icon = [os.environ.get('MAP1_ICON'), os.environ.get('MAP2_ICON'),
 team_names = [os.environ.get('TEAM1_NAME'), os.environ.get('TEAM2_NAME')]
 team_logos = [os.environ.get('TEAM1_LOGO'), os.environ.get('TEAM2_LOGO')]
 team_factors = [1.86, 1.14]
-team_scores = [12, 8]
+team_scores = [12, 9]
 
 team1_player_names = ['NuKe', 'PlaZz', 'Pasha Biceps', 'Fallen', 'Scream']
 team1_player_kills = [27, 19, 12, 9, 3]
