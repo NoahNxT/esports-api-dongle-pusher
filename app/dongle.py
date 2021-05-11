@@ -3,6 +3,11 @@ import random
 import time
 import json
 from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()
+import os
+
+
 
 game = 'CS:GO'
 icon = 'www.hosting.com/img/csgo_icon.png'
@@ -35,10 +40,10 @@ team2_player_mvp = [0, 1, 0, 1, 2]
 delay_message = 1
 
 pusher_client = pusher.Pusher(
-    app_id='1201428',
-    key='1b52ec7212fce7142eee',
-    secret='fb16863082f2518c752e',
-    cluster='eu',
+    app_id=os.environ.get('APP_ID'),
+    key=os.environ.get('KEY'),
+    secret=os.environ.get('SECRET'),
+    cluster=os.environ.get('CLUSTER'),
     ssl=True
 )
 
