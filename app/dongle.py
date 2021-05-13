@@ -94,7 +94,7 @@ def warmup():
     maps()
     teams()
 
-    pusher_client.trigger('csgo', 'match-data-csgo', str(data))
+    pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
     time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
 
 
@@ -120,7 +120,7 @@ def main():
 
             if data['Team1'][0]['Score'] == 16 or data['Team2'][0]['Score'] == 16:
                 data['Status'] = status[2]
-                pusher_client.trigger('csgo', 'match-data-csgo', str(data))
+                pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
                 time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
                 exit()
 
@@ -145,7 +145,7 @@ def main():
                 data['Team' + str((random.randint(1, 2)))][0]['Team'][0]['Player' + str((random.randint(1, 5)))][0][
                     'MVP'] += 1
 
-                pusher_client.trigger('csgo', 'match-data-csgo', str(data))
+                pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
                 time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
 
                 if round_time == round_time_total:
@@ -153,14 +153,14 @@ def main():
                     round_time = 0
                     if data['Team1'][0]['Score'] == 16 or data['Team2'][0]['Score'] == 16:
                         data['Status'] = status[2]
-                        pusher_client.trigger('csgo', 'match-data-csgo', str(data))
+                        pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
                         time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
                         exit()
                 else:
                     data['Team' + str(random_team)][0]['Score'] += 1
                     round_time += 1
                     round_time = round_time / int(os.environ.get('MESSAGE_INTERVAL'))
-                pusher_client.trigger('csgo', 'match-data-csgo', str(data))
+                pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
                 time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
             print(str(data['Team1'][0]['Score']) + ' : ' + str(data['Team2'][0]['Score']))
         exit()
