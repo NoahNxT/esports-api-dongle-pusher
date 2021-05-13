@@ -17,10 +17,12 @@ now = datetime.now()
 timenow = now.strftime('%I:%M %p')
 mode = 'BO1'
 game_maps = [os.environ.get('MAP1_NAME'), os.environ.get('MAP2_NAME'), os.environ.get('MAP3_NAME')]
-map_icon = [os.environ.get('MAP1_ICON'), os.environ.get('MAP2_ICON'),
-            os.environ.get('MAP3_ICON')]
+map_icon = [os.environ.get('APP_URL') + os.environ.get('MAP1_ICON'),
+            os.environ.get('APP_URL') + os.environ.get('MAP2_ICON'),
+            os.environ.get('APP_URL') + os.environ.get('MAP3_ICON')]
 team_names = [os.environ.get('TEAM1_NAME'), os.environ.get('TEAM2_NAME')]
-team_logos = [os.environ.get('TEAM1_LOGO'), os.environ.get('TEAM2_LOGO')]
+team_logos = [os.environ.get('APP_URL') + os.environ.get('TEAM1_LOGO'),
+              os.environ.get('APP_URL') + os.environ.get('TEAM2_LOGO')]
 team_factors = [1.86, 1.14]
 
 team1_player_names = ['NuKe', 'PlaZz', 'Pasha Biceps', 'Fallen', 'Scream']
@@ -43,6 +45,7 @@ def warmup():
     with open('./data.json') as f:
         data = json.load(f)
 
+    data['App_url'] = os.environ.get('APP_URL')
     data['Game'] = os.environ.get('GAME_NAME')
     data['Icon'] = os.environ.get('GAME_ICON')
     data['Banner'] = os.environ.get('TOURNAMENT_BANNER')
@@ -78,8 +81,6 @@ def warmup():
             data['Team1'][0]['Team'][0]['Player' + str(i + 1)][0]['Name'] = team1_player_names[int(i)]
             data['Team2'][0]['Team'][0]['Player' + str(i + 1)][0]['Name'] = team2_player_names[int(i)]
 
-    print(data)
-
     pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
     time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
 
@@ -91,6 +92,17 @@ def main():
 
     with open('./data.json') as f:
         data = json.load(f)
+
+        # Maps
+        for k in range(0, 3):
+            data['Maps'][0]['Map' + str(k + 1)][0]['Name'] = game_maps[k]
+            data['Maps'][0]['Map' + str(k + 1)][0]['Map_icon'] = map_icon[k]
+
+        # Teams
+        for j in range(0, 2):
+            data['Team' + str(j + 1)][0]['Name'] = team_names[j]
+            data['Team' + str(j + 1)][0]['Logo'] = team_logos[j]
+            data['Team' + str(j + 1)][0]['Factor'] = team_factors[j]
 
     try:
 

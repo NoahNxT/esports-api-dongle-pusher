@@ -8,6 +8,7 @@
     "Status": "Upcoming",
     "Map_playing": "Dust2",
     "Mode": "BO1",
+    "App_url": "",
     "Maps": [{
         "Map1": [{
             "Name": "Dust2",
@@ -24,7 +25,7 @@
     }],
     "Team1": [{
         "Name": "Astralis",
-        "Logo": "www.hosting.com/img/astralis.png",
+        "Logo": "",
         "Factor": 1.86,
         "Score": 0,
         "Team": [{
