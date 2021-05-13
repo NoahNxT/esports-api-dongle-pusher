@@ -39,35 +39,6 @@ print("E-sports Fake Data Dongle - STARTED")
 print("Press Ctrl-C to exit")
 
 
-def maps():
-    with open('./data.json') as f:
-        data = json.load(f)
-
-    for k in range(0, 2):
-        data['Maps'][0]['Map' + str(k + 1)][0]['Name'] = game_maps[k]
-        data['Maps'][0]['Map' + str(k + 1)][0]['Map_icon'] = map_icon[k]
-
-        data['Maps'][0]['Map' + str(k + 1)][0]['Name'] = game_maps[k]
-        data['Maps'][0]['Map' + str(k + 1)][0]['Map_icon'] = map_icon[k]
-
-        data['Maps'][0]['Map' + str(k + 1)][0]['Name'] = game_maps[k]
-        data['Maps'][0]['Map' + str(k + 1)][0]['Map_icon'] = map_icon[k]
-
-
-def teams():
-    with open('./data.json') as f:
-        data = json.load(f)
-
-    for j in range(0, 2):
-        data['Team' + str(j + 1)][0]['Name'] = team_names[j]
-        data['Team' + str(j + 1)][0]['Logo'] = team_logos[j]
-        data['Team' + str(j + 1)][0]['Factor'] = team_factors[j]
-
-        for i in range(0, 5):
-            data['Team1'][0]['Team'][0]['Player' + str(i + 1)][0]['Name'] = team1_player_names[int(i)]
-            data['Team2'][0]['Team'][0]['Player' + str(i + 1)][0]['Name'] = team2_player_names[int(i)]
-
-
 def warmup():
     with open('./data.json') as f:
         data = json.load(f)
@@ -84,6 +55,7 @@ def warmup():
     data['Team1'][0]['Score'] = 0
     data['Team2'][0]['Score'] = 0
 
+    # K / D / A / MVP
     for j in range(1, 3):
         for i in range(0, 5):
             data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Kills'] = 0
@@ -91,8 +63,22 @@ def warmup():
             data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Deaths'] = 0
             data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['MVP'] = 0
 
-    maps()
-    teams()
+    # Maps
+    for k in range(0, 3):
+        data['Maps'][0]['Map' + str(k + 1)][0]['Name'] = game_maps[k]
+        data['Maps'][0]['Map' + str(k + 1)][0]['Map_icon'] = map_icon[k]
+
+    # Teams
+    for j in range(0, 2):
+        data['Team' + str(j + 1)][0]['Name'] = team_names[j]
+        data['Team' + str(j + 1)][0]['Logo'] = team_logos[j]
+        data['Team' + str(j + 1)][0]['Factor'] = team_factors[j]
+
+        for i in range(0, 5):
+            data['Team1'][0]['Team'][0]['Player' + str(i + 1)][0]['Name'] = team1_player_names[int(i)]
+            data['Team2'][0]['Team'][0]['Player' + str(i + 1)][0]['Name'] = team2_player_names[int(i)]
+
+    print(data)
 
     pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
     time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
