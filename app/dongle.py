@@ -111,6 +111,10 @@ def main():
 
             print('Match will start in ' + str(warmupcalls - x) + ' seconds')
 
+        pusher_client.trigger('csgo-pull', 'pull-now', {"Pull": "true"})
+        time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
+        pusher_client.trigger('csgo-pull', 'pull-now', {"Pull": "false"})
+
         print('The match of ' + os.environ.get('TEAM1_NAME') + ' vs ' + os.environ.get(
             'TEAM2_NAME') + ' has been started!')
 
