@@ -17,12 +17,12 @@ now = datetime.now()
 timenow = now.strftime('%I:%M %p')
 mode = 'BO1'
 game_maps = [os.environ.get('MAP1_NAME'), os.environ.get('MAP2_NAME'), os.environ.get('MAP3_NAME')]
-map_icon = [os.environ.get('APP_URL') + os.environ.get('MAP1_ICON'),
-            os.environ.get('APP_URL') + os.environ.get('MAP2_ICON'),
-            os.environ.get('APP_URL') + os.environ.get('MAP3_ICON')]
+map_icon = [os.environ.get('MAP1_ICON'),
+            os.environ.get('MAP2_ICON'),
+            os.environ.get('MAP3_ICON')]
 team_names = [os.environ.get('TEAM1_NAME'), os.environ.get('TEAM2_NAME')]
-team_logos = [os.environ.get('APP_URL') + os.environ.get('TEAM1_LOGO'),
-              os.environ.get('APP_URL') + os.environ.get('TEAM2_LOGO')]
+team_logos = [os.environ.get('TEAM1_LOGO'),
+              os.environ.get('TEAM2_LOGO')]
 team_factors = [1.86, 1.14]
 
 team1_player_names = ['NuKe', 'PlaZz', 'Pasha Biceps', 'Fallen', 'Scream']
