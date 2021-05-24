@@ -1,64 +1,63 @@
 {
     "Game": "CS:GO",
-    "Icon": "www.hosting.com/img/csgo_icon.png",
-    "Banner": "www.hosting.com/img/iemsummerbanner.png",
-    "Tournament": "IEM Summer 2021",
-    "Date": "27.04.2021",
-    "Time": "10.40PM",
-    "Status": "Upcoming",
-    "Map_playing": "Dust2",
+    "Icon": "",
+    "Banner": "",
+    "Tournament": "",
+    "Date": "",
+    "Time": "",
+    "Status": "",
+    "Map_playing": "",
     "Mode": "BO1",
-    "App_url": "",
     "Maps": [{
         "Map1": [{
-            "Name": "Dust2",
-            "Map_icon": "www.hosting.com/img/dust2_icon.png"
+            "Name": "",
+            "Map_icon": ""
         }],
         "Map2": [{
-            "Name": "Inferno",
-            "Map_icon": "www.hosting.com/img/Inferno_icon.png"
+            "Name": "",
+            "Map_icon": ""
         }],
         "Map3": [{
-            "Name": "Overpass",
-            "Map_icon": "www.hosting.com/img/overpass_icon.png"
+            "Name": "",
+            "Map_icon": ""
         }]
     }],
     "Team1": [{
-        "Name": "Astralis",
+        "Name": "",
         "Logo": "",
-        "Factor": 1.86,
+        "Factor": 0,
         "Score": 0,
         "Team": [{
             "Player1": [{
-                "Name": "NuKe",
+                "Name": "",
                 "Kills": 0,
                 "Assists": 0,
                 "Deaths": 0,
                 "MVP": 0
             }],
             "Player2": [{
-                "Name": "PlaZz",
+                "Name": "",
                 "Kills": 0,
                 "Assists": 0,
                 "Deaths": 0,
                 "MVP": 0
             }],
             "Player3": [{
-                "Name": "Pasha Biceps",
+                "Name": "",
                 "Kills": 0,
                 "Assists": 0,
                 "Deaths": 0,
                 "MVP": 0
             }],
             "Player4": [{
-                "Name": "Fallen",
+                "Name": "",
                 "Kills": 0,
                 "Assists": 0,
                 "Deaths": 0,
                 "MVP": 0
             }],
             "Player5": [{
-                "Name": "Scream",
+                "Name": "",
                 "Kills": 0,
                 "Assists": 0,
                 "Deaths": 0,
@@ -67,41 +66,41 @@
         }]
     }],
     "Team2": [{
-        "Name": "ViCi",
-        "Logo": "www.hosting.com/img/vici.png",
-        "Factor": 1.14,
+        "Name": "",
+        "Logo": "",
+        "Factor": 0,
         "Score": 0,
         "Team": [{
             "Player1": [{
-                "Name": "Karma",
+                "Name": "",
                 "Kills": 0,
                 "Assists": 0,
                 "Deaths": 0,
                 "MVP": 0
             }],
             "Player2": [{
-                "Name": "DeadShoTt",
+                "Name": "",
                 "Kills": 0,
                 "Assists": 0,
                 "Deaths": 0,
                 "MVP": 0
             }],
             "Player3": [{
-                "Name": "SwarmEE",
+                "Name": "",
                 "Kills": 0,
                 "Assists": 0,
                 "Deaths": 0,
                 "MVP": 0
             }],
             "Player4": [{
-                "Name": "snAX",
+                "Name": "",
                 "Kills": 0,
                 "Assists": 0,
                 "Deaths": 0,
                 "MVP": 0
             }],
             "Player5": [{
-                "Name": "Elen",
+                "Name": "",
                 "Kills": 0,
                 "Assists": 0,
                 "Deaths": 0,
