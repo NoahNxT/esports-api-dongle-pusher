@@ -40,134 +40,134 @@ pusher_client = pusher.Pusher(
 print("E-sports Fake Data Dongle - STARTED")
 print("Press Ctrl-C to exit")
 
-
-def warmup():
-    with open('./data.json') as f:
-        data = json.load(f)
-
-    data['App_url'] = os.environ.get('APP_URL')
-    data['Game'] = os.environ.get('GAME_NAME')
-    data['Icon'] = os.environ.get('GAME_ICON')
-    data['Banner'] = os.environ.get('TOURNAMENT_BANNER')
-    data['Tournament'] = os.environ.get('TOURNAMENT_NAME')
-    data['Date'] = date
-    data['Time'] = str(timenow)
-    data['Mode'] = mode
-    data['Status'] = status[0]
-    data['Map_playing'] = map_playing[0]
-    data['Team1'][0]['Score'] = 0
-    data['Team2'][0]['Score'] = 0
-
-    # K / D / A / MVP
-    for j in range(1, 3):
-        for i in range(0, 5):
-            data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Kills'] = 0
-            data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Assists'] = 0
-            data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Deaths'] = 0
-            data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['MVP'] = 0
-
-    # Maps
-    for k in range(0, 3):
-        data['Maps'][0]['Map' + str(k + 1)][0]['Name'] = game_maps[k]
-        data['Maps'][0]['Map' + str(k + 1)][0]['Map_icon'] = map_icon[k]
-
-    # Teams
-    for j in range(0, 2):
-        data['Team' + str(j + 1)][0]['Name'] = team_names[j]
-        data['Team' + str(j + 1)][0]['Logo'] = team_logos[j]
-        data['Team' + str(j + 1)][0]['Factor'] = team_factors[j]
-
-        for i in range(0, 5):
-            data['Team1'][0]['Team'][0]['Player' + str(i + 1)][0]['Name'] = team1_player_names[int(i)]
-            data['Team2'][0]['Team'][0]['Player' + str(i + 1)][0]['Name'] = team2_player_names[int(i)]
-
-    pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
-    time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
+with open('./data.json') as f:
+    data = json.load(f)
 
 
-def main():
-    warmupcalls = int(os.environ.get('MATCH_WARMUP'))
-    round_time = 0
-    round_time_total = 115
+    def warmup():
 
-    with open('./data.json') as f:
-        data = json.load(f)
+        data['Game'] = os.environ.get('GAME_NAME')
+        data['Icon'] = os.environ.get('GAME_ICON')
+        data['Banner'] = os.environ.get('TOURNAMENT_BANNER')
+        data['Tournament'] = os.environ.get('TOURNAMENT_NAME')
+        data['Date'] = date
+        data['Time'] = str(timenow)
+        data['Mode'] = mode
+        data['Status'] = status[0]
+        data['Map_playing'] = map_playing[0]
+        data['Team1'][0]['Score'] = 0
+        data['Team2'][0]['Score'] = 0
 
-        # Maps
+        """
+            Set all K / A / D / MVP amount of players to 0 
+        """
+        for j in range(1, 3):
+            for i in range(0, 5):
+                data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Kills'] = 0
+                data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Assists'] = 0
+                data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Deaths'] = 0
+                data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['MVP'] = 0
+
+        """
+            Set all playable maps 
+        """
         for k in range(0, 3):
             data['Maps'][0]['Map' + str(k + 1)][0]['Name'] = game_maps[k]
             data['Maps'][0]['Map' + str(k + 1)][0]['Map_icon'] = map_icon[k]
 
-        # Teams
+        """
+            Set all teams and their players 
+        """
         for j in range(0, 2):
             data['Team' + str(j + 1)][0]['Name'] = team_names[j]
             data['Team' + str(j + 1)][0]['Logo'] = team_logos[j]
             data['Team' + str(j + 1)][0]['Factor'] = team_factors[j]
 
-    try:
+            for i in range(0, 5):
+                data['Team1'][0]['Team'][0]['Player' + str(i + 1)][0]['Name'] = team1_player_names[int(i)]
+                data['Team2'][0]['Team'][0]['Player' + str(i + 1)][0]['Name'] = team2_player_names[int(i)]
 
-        for x in range(0, warmupcalls + 1):
-            warmup()
+        """
+           If warmup has set all values first run, push to pusher 
+           else wai
+        """
+        if warmup.counter == 1:
+            pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
+            warmup.counter += 1
 
-            print('Match will start in ' + str(warmupcalls - x) + ' seconds')
-
-        pusher_client.trigger('csgo-pull', 'pull-now', {"Pull": "true"})
         time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
-        pusher_client.trigger('csgo-pull', 'pull-now', {"Pull": "false"})
 
-        print('The match of ' + os.environ.get('TEAM1_NAME') + ' vs ' + os.environ.get(
-            'TEAM2_NAME') + ' has been started!')
 
-        while data['Team1'][0]['Score'] <= 16 or data['Team2'][0]['Score'] <= 16:
+    def main():
+        warmupcalls = int(os.environ.get('MATCH_WARMUP'))
+        warmup.counter = 1
 
-            if data['Team1'][0]['Score'] == 16 or data['Team2'][0]['Score'] == 16:
-                data['Status'] = status[2]
+        try:
+            """
+                Warmup simulation
+            """
+            for x in range(0, warmupcalls + 1):
+                warmup()
+                print('Match will start in ' + str(warmupcalls - x) + ' seconds')
+
+            """
+                If the status of the game is upcoming change it to Live 
+                If the Map that is going to be played isn't set, set it to the first map
+            """
+            if data['Status'] == status[0] or data['Map_playing'] == map_playing[0]:
+                data['Status'] = status[1]
+                data['Map_playing'] = map_playing[1]
                 pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
-                time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
-                exit()
+                print('The match of ' + os.environ.get('TEAM1_NAME') + ' vs ' + os.environ.get(
+                    'TEAM2_NAME') + ' has been started!')
 
-            if not data['Status'] == status[2]:
+            """
+                Start match until a team reached 16 points
+            """
+            while data['Team1'][0]['Score'] <= 16 or data['Team2'][0]['Score'] <= 16:
+
+                """
+                    If team has reached 16 points, set status to ended and exit program
+                """
+                if data['Team1'][0]['Score'] == 16 or data['Team2'][0]['Score'] == 16:
+                    data['Status'] = status[2]
+                    pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
+                    exit()
+
+                """
+                    Generating Random K / A / D / MVP amount to assign to players in the upcoming round 
+                """
                 random_kills = [(random.randint(1, 3)), 0, (random.randint(0, 1)), 0, (random.randint(1, 2))]
                 random_assists = [(random.randint(1, 3)), 0, (random.randint(0, 1)), 0, (random.randint(1, 2))]
                 random_deaths = [(random.randint(0, 1)), (random.randint(0, 1)), (random.randint(0, 1)),
                                  (random.randint(0, 1)), (random.randint(0, 1))]
-                random_mvp_player = (random.randint(1, 5))
-                random_team = (random.randint(1, 2))
-                data['Status'] = status[1]
-                data['Map_playing'] = map_playing[1]
+                random_team = random.randint(1, 2)
+                random_round_time = random.randint(45, 115)
 
+                """
+                    Assign random generated amount of K / A / D / MVP to players
+                """
                 for j in range(1, 3):
-                    for i in range(0, 5):
-                        data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Kills'] += random_kills[
+                    for i in range(1, 6):
+                        data['Team' + str(j)][0]['Team'][0]['Player' + str(i)][0]['Kills'] += random_kills[
                             (random.randint(0, 4))]
-                        data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Assists'] += random_assists[
+                        data['Team' + str(j)][0]['Team'][0]['Player' + str(i)][0]['Assists'] += random_assists[
                             (random.randint(0, 4))]
-                        data['Team' + str(j)][0]['Team'][0]['Player' + str(i + 1)][0]['Deaths'] += random_deaths[
+                        data['Team' + str(j)][0]['Team'][0]['Player' + str(i)][0]['Deaths'] += random_deaths[
                             (random.randint(0, 4))]
-                data['Team' + str((random.randint(1, 2)))][0]['Team'][0]['Player' + str((random.randint(1, 5)))][0][
+                data['Team' + str(random_team)][0]['Team'][0]['Player' + str((random.randint(1, 5)))][0][
                     'MVP'] += 1
 
+                """
+                    Add point to team and set match time delay
+                """
+                data['Team' + str(random_team)][0]['Score'] += 1
+                print('Round will last ' + str(random_round_time) + ' seconds')
+                time.sleep(random_round_time)
+                print(str(data['Team1'][0]['Score']) + ' : ' + str(data['Team2'][0]['Score']))
                 pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
-                time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
 
-                if round_time == round_time_total:
-                    data['Team' + str(random_team)][0]['Score'] += 1
-                    round_time = 0
-                    if data['Team1'][0]['Score'] == 16 or data['Team2'][0]['Score'] == 16:
-                        data['Status'] = status[2]
-                        pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
-                        time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
-                        exit()
-                else:
-                    data['Team' + str(random_team)][0]['Score'] += 1
-                    round_time += 1
-                    round_time = round_time / int(os.environ.get('MESSAGE_INTERVAL'))
-                pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
-                time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
-            print(str(data['Team1'][0]['Score']) + ' : ' + str(data['Team2'][0]['Score']))
-        exit()
-    except KeyboardInterrupt:
-        print('Dongle STOPPED!')
-
+        except KeyboardInterrupt:
+            print('Dongle STOPPED!')
 
 main()
