@@ -1,4 +1,4 @@
-# WIP: Add best of 3 full functionality
+#!/usr/bin/python
 
 import pusher
 import random
@@ -58,6 +58,7 @@ with open('./data.json') as f:
         data['Team1'][0]['Score'] = 0
         data['Team2'][0]['Score'] = 0
 
+
         """
             Set all K / A / D / MVP amount of players to 0 
         """
@@ -92,6 +93,7 @@ with open('./data.json') as f:
            else wai
         """
         if warmup.counter == 1:
+            data['Match_id'] = random.randint(1, 9999)
             pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
             warmup.counter += 1
 
@@ -132,7 +134,7 @@ with open('./data.json') as f:
                 if data['Team1'][0]['Score'] == 16 or data['Team2'][0]['Score'] == 16:
                     data['Status'] = status[2]
                     pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
-                    exit()
+                    break
 
                 """
                     Generating Random K / A / D / MVP amount to assign to players in the upcoming round 
@@ -142,7 +144,8 @@ with open('./data.json') as f:
                 random_deaths = [(random.randint(0, 1)), (random.randint(0, 1)), (random.randint(0, 1)),
                                  (random.randint(0, 1)), (random.randint(0, 1))]
                 random_team = random.randint(1, 2)
-                random_round_time = random.randint(45, 115)
+                # random_round_time = random.randint(45, 115)
+                random_round_time = random.randint(0, 1)
 
                 """
                     Assign random generated amount of K / A / D / MVP to players
@@ -169,5 +172,9 @@ with open('./data.json') as f:
 
         except KeyboardInterrupt:
             print('Dongle STOPPED!')
+            exit()
 
-main()
+while True:
+    main()
+    print('Match has ended, in 10 seconds a new match will start!')
+    time.sleep(10)
