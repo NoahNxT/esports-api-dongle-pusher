@@ -7,6 +7,7 @@ import json
 from datetime import datetime
 from dotenv import load_dotenv
 import os
+import requests
 
 load_dotenv()
 
@@ -58,7 +59,6 @@ with open('./data.json') as f:
         data['Team1'][0]['Score'] = 0
         data['Team2'][0]['Score'] = 0
 
-
         """
             Set all K / A / D / MVP amount of players to 0 
         """
@@ -95,6 +95,7 @@ with open('./data.json') as f:
         if warmup.counter == 1:
             data['Match_id'] = random.randint(1, 9999)
             pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
+            requests.post(os.environ.get('POST_API_LINK'), json=json.dumps(data))
             warmup.counter += 1
 
         time.sleep(int(os.environ.get('MESSAGE_INTERVAL')))
@@ -120,6 +121,8 @@ with open('./data.json') as f:
                 data['Status'] = status[1]
                 data['Map_playing'] = map_playing[1]
                 pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
+                requests.post(os.environ.get('POST_API_LINK'), json=json.dumps(data))
+
                 print('The match of ' + os.environ.get('TEAM1_NAME') + ' vs ' + os.environ.get(
                     'TEAM2_NAME') + ' has been started!')
 
@@ -134,6 +137,7 @@ with open('./data.json') as f:
                 if data['Team1'][0]['Score'] == 16 or data['Team2'][0]['Score'] == 16:
                     data['Status'] = status[2]
                     pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
+                    requests.post(os.environ.get('POST_API_LINK'), json=json.dumps(data))
                     break
 
                 """
@@ -145,7 +149,7 @@ with open('./data.json') as f:
                                  (random.randint(0, 1)), (random.randint(0, 1))]
                 random_team = random.randint(1, 2)
                 # random_round_time = random.randint(45, 115)
-                random_round_time = random.randint(0, 1)
+                random_round_time = 1
 
                 """
                     Assign random generated amount of K / A / D / MVP to players
@@ -169,6 +173,7 @@ with open('./data.json') as f:
                 time.sleep(random_round_time)
                 print(str(data['Team1'][0]['Score']) + ' : ' + str(data['Team2'][0]['Score']))
                 pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
+                requests.post(os.environ.get('POST_API_LINK'), json=json.dumps(data))
 
         except KeyboardInterrupt:
             print('Dongle STOPPED!')
