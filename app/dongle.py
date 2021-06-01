@@ -17,6 +17,7 @@ date = datetime.today().strftime('%d-%m-%Y ')
 now = datetime.now()
 timenow = now.strftime('%I:%M %p')
 mode = 'BO1'
+match_id = 1
 game_maps = [os.environ.get('MAP1_NAME'), os.environ.get('MAP2_NAME'), os.environ.get('MAP3_NAME')]
 map_icon = [os.environ.get('MAP1_ICON'),
             os.environ.get('MAP2_ICON'),
@@ -25,9 +26,7 @@ team_names = [os.environ.get('TEAM1_NAME'), os.environ.get('TEAM2_NAME')]
 team_logos = [os.environ.get('TEAM1_LOGO'),
               os.environ.get('TEAM2_LOGO')]
 team_factors = [1.86, 1.14]
-
 team1_player_names = ['NuKe', 'PlaZz', 'Pasha Biceps', 'Fallen', 'Scream']
-
 team2_player_names = ['Karma', 'DeadShoT', 'SwarmEE', 'snAX', 'Elen']
 
 pusher_client = pusher.Pusher(
@@ -44,9 +43,8 @@ print("Press Ctrl-C to exit")
 with open('./data.json') as f:
     data = json.load(f)
 
-
-    def warmup():
-
+    def warmup(game_id):
+        print(game_id)
         data['Game'] = os.environ.get('GAME_NAME')
         data['Icon'] = os.environ.get('GAME_ICON')
         data['Banner'] = os.environ.get('TOURNAMENT_BANNER')
@@ -93,7 +91,8 @@ with open('./data.json') as f:
            else wai
         """
         if warmup.counter == 1:
-            data['Match_id'] = random.randint(1, 9999)
+            data['Match_id'] = game_id  # random.randint(1, 9999)
+            game_id += 1
             pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
             requests.post(os.environ.get('POST_API_LINK'), json=json.dumps(data))
             warmup.counter += 1
@@ -110,7 +109,7 @@ with open('./data.json') as f:
                 Warmup simulation
             """
             for x in range(0, warmupcalls + 1):
-                warmup()
+                warmup(match_id)
                 print('Match will start in ' + str(warmupcalls - x) + ' seconds')
 
             """
@@ -148,8 +147,8 @@ with open('./data.json') as f:
                 random_deaths = [(random.randint(0, 1)), (random.randint(0, 1)), (random.randint(0, 1)),
                                  (random.randint(0, 1)), (random.randint(0, 1))]
                 random_team = random.randint(1, 2)
-                # random_round_time = random.randint(45, 115)
-                random_round_time = 1
+                random_round_time = random.randint(45, 115)
+                # random_round_time = 1
 
                 """
                     Assign random generated amount of K / A / D / MVP to players
@@ -183,3 +182,4 @@ while True:
     main()
     print('Match has ended, in 10 seconds a new match will start!')
     time.sleep(10)
+    match_id += 1
