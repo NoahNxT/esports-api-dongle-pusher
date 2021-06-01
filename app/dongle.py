@@ -4,7 +4,7 @@ import pusher
 import random
 import time
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from time import strftime
 from time import gmtime
@@ -16,10 +16,10 @@ load_dotenv()
 status = ['Upcoming', 'Warmup', 'Live', 'Ended']
 map_playing = ['none', os.environ.get('MAP1_NAME'), os.environ.get('MAP2_NAME'), os.environ.get('MAP3_NAME')]
 date = datetime.today().strftime('%d-%m-%Y ')
-now = datetime.now()
-timenow = now.strftime('%I:%M %p')
+now = datetime.now() + timedelta(seconds=int(os.environ.get('MATCH_UPCOMING')))
+start_time = now.strftime('%I:%M %p')
 mode = 'BO1'
-match_id = 1
+game_id = 1
 game_maps = [os.environ.get('MAP1_NAME'), os.environ.get('MAP2_NAME'), os.environ.get('MAP3_NAME')]
 map_icon = [os.environ.get('MAP1_ICON'),
             os.environ.get('MAP2_ICON'),
@@ -46,13 +46,13 @@ with open('./data.json') as f:
     data = json.load(f)
 
 
-    def upcoming_prep(game_id):
+    def upcoming_prep():
         data['Game'] = os.environ.get('GAME_NAME')
         data['Icon'] = os.environ.get('GAME_ICON')
         data['Banner'] = os.environ.get('TOURNAMENT_BANNER')
         data['Tournament'] = os.environ.get('TOURNAMENT_NAME')
         data['Date'] = date
-        data['Time'] = str(timenow)
+        data['Time'] = str(start_time)
         data['Mode'] = mode
         data['Status'] = status[0]
         data['Map_playing'] = map_playing[0]
@@ -93,8 +93,8 @@ with open('./data.json') as f:
            else wai
         """
         if upcoming_prep.counter == 1:
+            print(game_id)
             data['Match_id'] = game_id  # random.randint(1, 9999)
-            game_id += 1
             pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
             requests.post(os.environ.get('POST_API_LINK'), json=json.dumps(data))
             upcoming_prep.counter += 1
@@ -106,6 +106,9 @@ with open('./data.json') as f:
         upcoming_prep.counter = 1
 
         try:
+            """
+                Upcoming simulation
+            """
             for x in range(0, upcoming + 1):
                 if upcoming >= 3600:
                     print('Match will start in ' + strftime("%H hours %M minutes %S seconds", gmtime(upcoming - x)))
@@ -116,7 +119,7 @@ with open('./data.json') as f:
                 if upcoming <= 60:
                     print('Match will start in ' + strftime("%S seconds", gmtime(upcoming - x)))
 
-                upcoming_prep(match_id)
+                upcoming_prep()
 
                 time.sleep(1)
 
@@ -143,8 +146,8 @@ with open('./data.json') as f:
                 If the status of the game is upcoming change it to Live 
                 If the Map that is going to be played isn't set, set it to the first map
             """
-            if data['Status'] == status[0] or data['Map_playing'] == map_playing[0]:
-                data['Status'] = status[1]
+            if data['Status'] == status[1] or data['Map_playing'] == map_playing[0]:
+                data['Status'] = status[2]
                 data['Map_playing'] = map_playing[1]
                 pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
                 requests.post(os.environ.get('POST_API_LINK'), json=json.dumps(data))
@@ -161,7 +164,7 @@ with open('./data.json') as f:
                     If team has reached 16 points, set status to ended and exit program
                 """
                 if data['Team1'][0]['Score'] == 16 or data['Team2'][0]['Score'] == 16:
-                    data['Status'] = status[2]
+                    data['Status'] = status[3]
                     pusher_client.trigger('csgo', 'match-data-csgo', json.dumps(data))
                     requests.post(os.environ.get('POST_API_LINK'), json=json.dumps(data))
                     break
@@ -209,4 +212,4 @@ while True:
     main()
     print('Match has ended, in 10 seconds a new match will start!')
     time.sleep(10)
-    match_id += 1
+    game_id += 1
